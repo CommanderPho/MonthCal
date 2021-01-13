@@ -12,8 +12,9 @@ import SwiftUI
 @available(iOS 13.0, *)
 struct DayCellView: View {
 
-    @ObservedObject var day: Day
-
+    var day: Day
+    var selectionCompletion: ((Day)->Void)?
+    
     var body: some View {
         Text(day.dayName).frame(width: 32, height: 32)
             .foregroundColor(day.textColor)
@@ -21,17 +22,18 @@ struct DayCellView: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .clipped()
             .onTapGesture {
-                if self.day.disabled == false && self.day.selectableDays {
-                    self.day.isSelected.toggle()
+                if self.day.selectable {
+                    self.selectionCompletion?(self.day)
+                //    self.day.isSelected.toggle()
                 }
         }
     }
 }
 
-@available(OSX 10.15, *)
-@available(iOS 13.0, *)
-struct CellView_Previews: PreviewProvider {
-    static var previews: some View {
-        DayCellView(day: Day(date: Date()))
-    }
-}
+//@available(OSX 10.15, *)
+//@available(iOS 13.0, *)
+//struct CellView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DayCellView(day: Day(date: Date()))
+//    }
+//}

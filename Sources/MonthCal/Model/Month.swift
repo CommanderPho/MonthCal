@@ -15,7 +15,7 @@ struct Month {
     private let calendar = Calendar.current
 
     var startDate: Date
-    var selectableDays: Bool
+    var selectableDates: [Date] = []
     var today = Date()
     var monthNameYear: String {
         self.monthHeader()
@@ -90,17 +90,20 @@ struct Month {
 
         while (fom <= currentDate && currentDate <= lom) {
             let weekday = dateToWeekday(date: currentDate)
-            let disabled = currentDate > today ? true : false
+          //  let disabled = currentDate > today ? true : false
+          //  let disabled = false
             let currentDateInt = Int(currentDate.dateToString(format: "MMdyy"))!
             let todayDateInt = Int(today.dateToString(format: "MMdyy"))!
             let isToday = currentDateInt == todayDateInt ? true : false
-            let currentDay = Day(date: currentDate, today: isToday, disable: disabled, selectable: selectableDays)
+            let selectable = currentDate.hasMatchingDayIn(dates: self.selectableDates)
+            let currentDay = Day(date: currentDate, today: isToday, selectable: selectable)
             arrayOfDays[weekday]?.append(currentDay)
 
             if fom == currentDate {
                 var startDay = weekday - 1
                 while startDay > 0 {
-                    arrayOfDays[startDay]?.append(Day(date: Date(timeIntervalSince1970: 0)))
+                    let selectable = Date(timeIntervalSince1970: 0).hasMatchingDayIn(dates: self.selectableDates)
+                    arrayOfDays[startDay]?.append(Day(date: Date(timeIntervalSince1970: 0), selectable: selectable))
                     startDay -= 1
                 }
             }
@@ -108,11 +111,11 @@ struct Month {
             if lom == currentDate {
                 var endDay = weekday + 1
                 while endDay <= 7 {
-                    arrayOfDays[endDay]?.append(Day(date: Date(timeIntervalSince1970: 0)))
+                    let selectable = Date(timeIntervalSince1970: 0).hasMatchingDayIn(dates: self.selectableDates)
+                    arrayOfDays[endDay]?.append(Day(date: Date(timeIntervalSince1970: 0), selectable: selectable))
                     endDay += 1
                 }
             }
-
 
             //Increment date
             var components = calendar.dateComponents([.day], from: currentDate)

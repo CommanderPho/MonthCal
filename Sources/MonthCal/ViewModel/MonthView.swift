@@ -14,7 +14,8 @@ struct MonthView: View {
 
 
     var month: Month
-
+    var didSelectDayCompletion: ((Day)->Void)?
+    
     var body: some View {
         VStack {
             Text("\(month.monthNameYear)")
@@ -22,7 +23,7 @@ struct MonthView: View {
                 if self.month.monthDays[col+1]![row].dayDate == Date(timeIntervalSince1970: 0) {
                     Text("").frame(width: 32, height: 32)
                 } else {
-                    DayCellView(day: self.month.monthDays[col+1]![row])
+                    DayCellView(day: self.month.monthDays[col+1]![row], selectionCompletion: self.didSelectDayCompletion)
                 }
 
             }
@@ -31,10 +32,10 @@ struct MonthView: View {
 
     }
 }
-@available(OSX 10.15, *)
-@available(iOS 13.0, *)
-struct MonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        MonthView(month: Month(startDate: Date(), selectableDays: true))
-    }
-}
+//@available(OSX 10.15, *)
+//@available(iOS 13.0, *)
+//struct MonthView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MonthView(month: Month(startDate: Date(), selectableDays: true))
+//    }
+//}
