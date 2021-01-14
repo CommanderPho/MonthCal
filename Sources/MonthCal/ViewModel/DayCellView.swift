@@ -15,8 +15,13 @@ struct DayCellView: View {
     var day: Day
     var selectionCompletion: ((Day)->Void)?
     
+    
     var body: some View {
-        Text(day.dayName).frame(width: 32, height: 32)
+        Text(day.dayName)
+            .applyIf(self.day.isToday, apply: {
+                $0.bold()
+            })
+            .frame(width: 32, height: 32)
             .foregroundColor(day.textColor)
             .background(day.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))

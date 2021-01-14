@@ -24,16 +24,15 @@ public class Day:ObservableObject {
     //var disabled = false
     let colors = Colors()
     var textColor: Color {
+        if isToday {
+            return colors.todayColor
+        }
         if selectable {
             return colors.selectedColor
         } else {
             return colors.disabledColor
         }
-        
-//        if isToday {
-//            return colors.todayColor
-//        }
-        return colors.textColor
+
     }
     var backgroundColor: Color {
         if selectable {

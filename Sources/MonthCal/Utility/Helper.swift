@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Date {
 
@@ -98,4 +99,17 @@ extension Calendar {
     }
     
     
+}
+
+extension View {
+    func applyIf<T: View>(_ condition: @autoclosure () -> Bool, apply: (Self) -> T) -> AnyView {
+        if condition() {
+            return apply(self).eraseToAnyView()
+        } else { 
+            return self.eraseToAnyView()
+        }
+    }
+    func eraseToAnyView()->AnyView {
+        return AnyView(self)
+    }
 }

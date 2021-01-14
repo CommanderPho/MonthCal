@@ -17,7 +17,7 @@ struct MonthView: View {
     var didSelectDayCompletion: ((Day)->Void)?
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             Text("\(month.monthNameYear)")
             GridStack(rows: month.monthRows, columns: month.monthDays.count) { row, col in
                 if self.month.monthDays[col+1]![row].dayDate == Date(timeIntervalSince1970: 0) {

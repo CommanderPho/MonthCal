@@ -44,15 +44,13 @@ public struct CalendarView: View {
         
         let orderedDates = self.selectableDates.sorted(by: {$0 < $1})
   
-        if Calendar.current.isDate(orderedDates.first!, inSameMonthAs: orderedDates.last!) {
+        if Calendar.current.isDate(orderedDates.first!, inSameMonthAs: orderedDates.last!) { // case if
             return 1
         }
-//        let components0 = Calendar.current.dateComponents([.month], from: orderedDates.first!)
-//        let components1 = Calendar.current.dateComponents([.month], from: orderedDates.last!)
-//
-        var monthsBetween = Date.monthsBetweenTwoDates(firstDate: orderedDates.first!, secondDate: orderedDates.last!) ?? 0
+
+        var monthsBetween = Date.monthsBetweenTwoDates(firstDate: orderedDates.first!, secondDate: orderedDates.last!) ?? 0  // returns 0 if difference is less than 1 month
         print("months between: \(monthsBetween)")
-    //    let adjusted =  monthsBetween  + 1
+
         if monthsBetween == 0 {
             monthsBetween = 1
         }
