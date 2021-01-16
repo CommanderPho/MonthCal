@@ -9,35 +9,62 @@
 import SwiftUI
 
 @available(OSX 10.15, *)
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 public struct CalendarView: View {
 
     let startDate: Date
     let monthsToDisplay: Int
-    var selectableDates:[Date]
+    var selectableDates:[Date] =  []
     var didSelectDayCompletion: ((Day)->Void)?
-
+    
+    var months: [Month] = []
+    
     public init(start: Date, monthsToShow: Int, selectableDates: [Date] = [], daySelectedCompletion: ((Day)->Void)?) {
         self.startDate = start
         self.monthsToDisplay = monthsToShow
         self.selectableDates = selectableDates
         self.didSelectDayCompletion = daySelectedCompletion
-        
+        self.generateMonths()
     }
 
     public var body: some View {
         VStack {
             WeekdaysView()
+            Divider()
             ScrollView {
-                MonthView(month: Month(startDate: self.earliestDate, selectableDates: selectableDates), didSelectDayCompletion: self.didSelectDayCompletion)
-                if monthsToDisplay > 1 {
-                    ForEach(1..<self.monthsCount) {
-                        MonthView(month: Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: $0), selectableDates: self.selectableDates), didSelectDayCompletion: self.didSelectDayCompletion)
+                LazyVStack {
+                    ForEach(self.months, id: \.startDate) { month in
+                        VStack {
+                            MonthView(month: month, didSelectDayCompletion: self.didSelectDayCompletion)
+                            Divider()
+                        }
                     }
                 }
+
             }
         }
+        
+        .onAppear {
+          
+        }
     }
+    
+    mutating func generateMonths() {
+        let firstMonth = Month(startDate: self.earliestDate, selectableDates: selectableDates)
+        self.months.append(firstMonth)
+        
+        if monthsCount > 1 {
+            for  i in 1..<self.monthsCount {
+             // print("generating months...")
+                let month =  Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: i), selectableDates: selectableDates)
+                self.months.append(month)
+            }
+
+        }
+        
+    }
+    
+
     
     var monthsCount: Int {
         if self.selectableDates.isEmpty {return self.monthsToDisplay}
@@ -48,13 +75,14 @@ public struct CalendarView: View {
             return 1
         }
 
-        var monthsBetween = Date.monthsBetweenTwoDates(firstDate: orderedDates.first!, secondDate: orderedDates.last!) ?? 0  // returns 0 if difference is less than 1 month
-        print("months between: \(monthsBetween)")
+        var monthsToCover = Date.monthsToCover(firstDate: orderedDates.first!, secondDate: orderedDates.last!)
+        //print("months between: \(monthsBetween)")
 
-        if monthsBetween == 0 {
-            monthsBetween = 1
+        if monthsToCover == 0 {
+            monthsToCover = 1
         }
-        return monthsBetween + 1
+     //   print("month count: \(monthsToCover + 1)")
+        return monthsToCover + 1
     }
     
     var earliestDate: Date {

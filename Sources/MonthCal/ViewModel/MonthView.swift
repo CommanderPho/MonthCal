@@ -9,24 +9,26 @@
 import SwiftUI
 
 @available(OSX 10.15, *)
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 struct MonthView: View {
-
 
     var month: Month
     var didSelectDayCompletion: ((Day)->Void)?
+    let  columns = Array.init(repeating: GridItem(.flexible()), count: Calendar.current.weekdaySymbols.count)
     
     var body: some View {
+      
         VStack(alignment: .center) {
             Text("\(month.monthNameYear)")
-            GridStack(rows: month.monthRows, columns: month.monthDays.count) { row, col in
-                if self.month.monthDays[col+1]![row].dayDate == Date(timeIntervalSince1970: 0) {
-                    Text("").frame(width: 32, height: 32)
-                } else {
-                    DayCellView(day: self.month.monthDays[col+1]![row], selectionCompletion: self.didSelectDayCompletion)
+      
+            LazyVGrid(columns: columns) {
+                ForEach(self.month.monthDays, id:\.id) {day in
+                    DayCellView(day: day, selectionCompletion: self.didSelectDayCompletion)
+                        .padding(.top, 5).padding(.bottom, 5)
                 }
 
             }
+
         }
         .padding(.bottom, 20)
 

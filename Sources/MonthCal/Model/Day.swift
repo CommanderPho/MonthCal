@@ -11,14 +11,15 @@ import SwiftUI
 
 @available(OSX 10.15, *)
 @available(iOS 13.0, *)
-public class Day:ObservableObject {
+public struct Day: Identifiable {
 
 //    @Published var isSelected = false
-
-    @Published var selectable: Bool
+    public var id = UUID()
+    var selectable: Bool
     public var dayDate: Date
+    var placeholder: Bool
     var dayName: String {
-        dayDate.dateToString(format: "d")
+        self.placeholder ?  "" : dayDate.dateToString(format: "d")
     }
     var isToday = false
     //var disabled = false
@@ -42,10 +43,11 @@ public class Day:ObservableObject {
         }
     }
 
-   public init(date: Date, today: Bool = false, selectable: Bool) {
+    public init(date: Date, today: Bool = false, selectable: Bool, placeholder: Bool = false) {
         dayDate = date
         isToday = today
         self.selectable = selectable
+        self.placeholder = placeholder
     }
 
 }

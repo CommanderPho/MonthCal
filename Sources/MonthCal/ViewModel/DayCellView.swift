@@ -18,9 +18,6 @@ struct DayCellView: View {
     
     var body: some View {
         Text(day.dayName)
-            .applyIf(self.day.isToday, apply: {
-                $0.bold()
-            })
             .frame(width: 32, height: 32)
             .foregroundColor(day.textColor)
             .background(day.backgroundColor)

@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import SwiftUI
 
 @available(OSX 10.15, *)
 @available(iOS 13.0, *)
+
+
 struct Month {
 
     private let calendar = Calendar.current
@@ -20,11 +23,8 @@ struct Month {
     var monthNameYear: String {
         self.monthHeader()
     }
-    var monthDays: [Int: [Day]] {
-        return self.daysArray()
-    }
-    var monthRows: Int {
-        self.rows()
+    var monthDays: [Day] {
+        return self.dayArray()
     }
 
 
@@ -63,68 +63,46 @@ struct Month {
         return weekday
     }
 
-    private func rows() -> Int {
-        let columns = monthDays.count
-        var rowCount = 1
-        for col in 1...columns {
-            if monthDays[col]!.count > rowCount {
-                rowCount = monthDays[col]!.count
-            }
-        }
-        return rowCount
-    }
-
-    private func daysArray() -> [Int: [Day]] {
-        var arrayOfDays = [
-            1: [Day](),
-            2: [Day](),
-            3: [Day](),
-            4: [Day](),
-            5: [Day](),
-            6: [Day](),
-            7: [Day]()
-        ]
+    private func dayArray()->[Day] {
+        var arrayOfDays: [Day] = []
         let fom = firstOfMonth()
         let lom = lastOfMonth()
         var currentDate = fom
-
+        var weekdayColumn = 0
+        
+        let currentCalendarWeekdayCount = Calendar.current.weekdaySymbols.count
+        
         while (fom <= currentDate && currentDate <= lom) {
-            let weekday = dateToWeekday(date: currentDate)
-          //  let disabled = currentDate > today ? true : false
-          //  let disabled = false
+          //  print("day creation while loop current date \(currentDate.description)")
+            weekdayColumn += 1
+            if weekdayColumn > currentCalendarWeekdayCount {
+                weekdayColumn = 1
+            }
+            let currentDateWeekday = dateToWeekday(date: currentDate)
+            
+            while currentDateWeekday > weekdayColumn {
+                arrayOfDays.append(Day(date: Date(), selectable: false, placeholder: true))
+               weekdayColumn += 1
+            }
+
             let currentDateInt = Int(currentDate.dateToString(format: "MMdyy"))!
             let todayDateInt = Int(today.dateToString(format: "MMdyy"))!
             let isToday = currentDateInt == todayDateInt ? true : false
             let selectable = currentDate.hasMatchingDayIn(dates: self.selectableDates)
             let currentDay = Day(date: currentDate, today: isToday, selectable: selectable)
-            arrayOfDays[weekday]?.append(currentDay)
+            arrayOfDays.append(currentDay  )
 
-            if fom == currentDate {
-                var startDay = weekday - 1
-                while startDay > 0 {
-                    let selectable = Date(timeIntervalSince1970: 0).hasMatchingDayIn(dates: self.selectableDates)
-                    arrayOfDays[startDay]?.append(Day(date: Date(timeIntervalSince1970: 0), selectable: selectable))
-                    startDay -= 1
-                }
-            }
-
-            if lom == currentDate {
-                var endDay = weekday + 1
-                while endDay <= 7 {
-                    let selectable = Date(timeIntervalSince1970: 0).hasMatchingDayIn(dates: self.selectableDates)
-                    arrayOfDays[endDay]?.append(Day(date: Date(timeIntervalSince1970: 0), selectable: selectable))
-                    endDay += 1
-                }
-            }
 
             //Increment date
             var components = calendar.dateComponents([.day], from: currentDate)
             components.day = +1
             currentDate = calendar.date(byAdding: components, to: currentDate)!
         }
-
+        
         return arrayOfDays
     }
+
+
 
 
 }

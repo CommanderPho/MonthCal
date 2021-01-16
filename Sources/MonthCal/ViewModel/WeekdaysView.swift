@@ -16,9 +16,13 @@ struct WeekdaysView: View {
 
     var body: some View {
         HStack {
-            GridStack(rows: 1, columns: 7) { row, col in
-                Text(self.weekdays[col])
+            ForEach(Calendar.current.shortWeekdaySymbols, id: \.self) { weekday in
+                
+                Spacer()
+                Text(String(weekday.first!)).bold()
+                Spacer()
             }
+        
         }.padding(.bottom, 20).background(colors.weekdayBackgroundColor)
     }
 }
