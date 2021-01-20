@@ -14,7 +14,7 @@ struct DayCellView: View {
 
     var day: Day
     var selectionCompletion: ((Day)->Void)?
-    
+
     
     var body: some View {
         Text(day.dayName)

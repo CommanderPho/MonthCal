@@ -9,19 +9,28 @@
 import Foundation
 import SwiftUI
 
-@available(OSX 10.15, *)
-@available(iOS 13.0, *)
-class Colors: ObservableObject {
 
-    //Foreground
-    @Published var textColor: Color = Color.primary
-    @Published var todayColor: Color = Color.blue
-    @Published var disabledColor: Color = Color.gray
-    @Published var selectedColor: Color = Color.primary
-
+public struct Colors {
+    
+    public init(textColor: Color = .primary, todayTextColor: Color = .blue, disabledTextColor: Color = Color.gray, selectedTextColor:Color = Color.primary, backgroundColor:Color =  Color.clear, weekdayBackgroundColor: Color =  Color.clear, selectedBackgroundColor: Color = .orange) {
+        
+        self.textColor = textColor
+        self.todayTextColor = todayTextColor
+        self.disabledTextColor = disabledTextColor
+        self.selectedTextColor = selectedTextColor
+        self.backgroundColor = backgroundColor
+        self.weekdayBackgroundColor = weekdayBackgroundColor
+        self.selectedBackgroundColor = selectedBackgroundColor
+    }
+    var textColor: Color
+    var todayTextColor: Color
+    var disabledTextColor: Color
+    var selectedTextColor: Color
+    
     //Background
-    @Published var backgroundColor: Color = Color.clear
-    @Published var weekdayBackgroundColor: Color = Color.clear
-    @Published var selectedBackgroundColor: Color = Color.orange
-
+    var backgroundColor: Color
+    var weekdayBackgroundColor: Color
+    var selectedBackgroundColor: Color
+    
+    
 }

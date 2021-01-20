@@ -19,6 +19,7 @@ struct Month {
 
     var startDate: Date
     var selectableDates: [Date] = []
+    var colors: Colors
     var today = Date()
     var monthNameYear: String {
         self.monthHeader()
@@ -81,7 +82,7 @@ struct Month {
             let currentDateWeekday = dateToWeekday(date: currentDate)
             
             while currentDateWeekday > weekdayColumn {
-                arrayOfDays.append(Day(date: Date(), selectable: false, placeholder: true))
+                arrayOfDays.append(Day(date: Date(), selectable: false, placeholder: true, colors: self.colors))
                weekdayColumn += 1
             }
 
@@ -89,7 +90,7 @@ struct Month {
             let todayDateInt = Int(today.dateToString(format: "MMdyy"))!
             let isToday = currentDateInt == todayDateInt ? true : false
             let selectable = currentDate.hasMatchingDayIn(dates: self.selectableDates)
-            let currentDay = Day(date: currentDate, today: isToday, selectable: selectable)
+            let currentDay = Day(date: currentDate, today: isToday, selectable: selectable, colors: self.colors)
             arrayOfDays.append(currentDay  )
 
 

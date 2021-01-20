@@ -18,20 +18,21 @@ public struct Day: Identifiable {
     var selectable: Bool
     public var dayDate: Date
     var placeholder: Bool
+    var colors: Colors
     var dayName: String {
         self.placeholder ?  "" : dayDate.dateToString(format: "d")
     }
     var isToday = false
-    //var disabled = false
-    let colors = Colors()
+    var disabled = false
+
     var textColor: Color {
         if isToday {
-            return colors.todayColor
+            return colors.todayTextColor
         }
         if selectable {
-            return colors.selectedColor
+            return colors.selectedTextColor
         } else {
-            return colors.disabledColor
+            return colors.disabledTextColor
         }
 
     }
@@ -43,11 +44,12 @@ public struct Day: Identifiable {
         }
     }
 
-    public init(date: Date, today: Bool = false, selectable: Bool, placeholder: Bool = false) {
+    public init(date: Date, today: Bool = false, selectable: Bool, placeholder: Bool = false, colors: Colors) {
         dayDate = date
         isToday = today
         self.selectable = selectable
         self.placeholder = placeholder
+        self.colors = colors
     }
 
 }

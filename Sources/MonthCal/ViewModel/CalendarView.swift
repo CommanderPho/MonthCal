@@ -18,18 +18,21 @@ public struct CalendarView: View {
     var didSelectDayCompletion: ((Day)->Void)?
     
     var months: [Month] = []
+    var colors: Colors
     
-    public init(start: Date, monthsToShow: Int, selectableDates: [Date] = [], daySelectedCompletion: ((Day)->Void)?) {
+    public init(start: Date, monthsToShow: Int, selectableDates: [Date] = [], daySelectedCompletion: ((Day)->Void)?, colors: Colors = Colors()) {
         self.startDate = start
         self.monthsToDisplay = monthsToShow
         self.selectableDates = selectableDates
+        self.colors = colors
         self.didSelectDayCompletion = daySelectedCompletion
+        
         self.generateMonths()
     }
 
     public var body: some View {
         VStack {
-            WeekdaysView()
+            WeekdaysView(colors: self.colors)
             Divider()
             ScrollView {
                 LazyVStack {
@@ -43,20 +46,17 @@ public struct CalendarView: View {
 
             }
         }
-        
-        .onAppear {
-          
-        }
+
     }
     
     mutating func generateMonths() {
-        let firstMonth = Month(startDate: self.earliestDate, selectableDates: selectableDates)
+        let firstMonth = Month(startDate: self.earliestDate, selectableDates: selectableDates, colors: self.colors)
         self.months.append(firstMonth)
         
         if monthsCount > 1 {
             for  i in 1..<self.monthsCount {
              // print("generating months...")
-                let month =  Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: i), selectableDates: selectableDates)
+                let month =  Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: i), selectableDates: selectableDates, colors: self.colors)
                 self.months.append(month)
             }
 
@@ -76,7 +76,6 @@ public struct CalendarView: View {
         }
 
         var monthsToCover = Date.monthsToCover(firstDate: orderedDates.first!, secondDate: orderedDates.last!)
-        //print("months between: \(monthsBetween)")
 
         if monthsToCover == 0 {
             monthsToCover = 1
