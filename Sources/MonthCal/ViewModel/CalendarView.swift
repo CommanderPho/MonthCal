@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftUIPager
 
 @available(OSX 10.15, *)
 @available(iOS 14.0, *)
@@ -19,6 +20,8 @@ public struct CalendarView: View {
     
     var months: [Month] = []
     var colors: Colors
+    @StateObject var page: Page = .first()
+   // @//State var currentMonth: Month?
     
     public init(start: Date, monthsToShow: Int, selectableDates: [Date] = [], daySelectedCompletion: ((Day)->Void)?, colors: Colors = Colors()) {
         self.startDate = start
@@ -31,21 +34,45 @@ public struct CalendarView: View {
     }
 
     public var body: some View {
+        ZStack(alignment: .topTrailing) {
         VStack {
+            
             WeekdaysView(colors: self.colors)
             Divider()
-            ScrollView {
-                LazyVStack {
-                    ForEach(self.months, id: \.startDate) { month in
-                        VStack {
-                            MonthView(month: month, didSelectDayCompletion: self.didSelectDayCompletion)
-                            Divider()
-                        }
-                    }
-                }
-
+     
+            Pager(page: page, data: self.months, id: \.startDate) { month in
+                MonthView(month: month, didSelectDayCompletion: self.didSelectDayCompletion)
             }
-        }
+            .vertical().sensitivity(.high)
+
+            .bounces(true)
+     
+            Spacer()
+            }
+            
+            VStack(spacing: 15) {
+                Button {
+                    if self.page.index > 0 {
+                     //   self.page.index = self.page.index - 1
+                        self.page.update(.previous)
+                    }
+                } label: {
+                    Image(systemName: "chevron.up")
+                }.disabled(self.page.index <= 0)
+
+                Button {
+                    if self.page.index + 1 < self.months.count {
+                        self.page.update(.next)
+                      //  self.page.index = self.page.index + 1
+                    }
+                } label: {
+                    Image(systemName: "chevron.down")
+                }.disabled(self.page.index + 1 >= self.months.count)
+            
+            }.font(.system(size: 25)).padding(.top, 50).padding(.horizontal, 10)
+
+           
+        }.frame(maxHeight: 450)
 
     }
     
@@ -61,6 +88,7 @@ public struct CalendarView: View {
             }
 
         }
+        self.months.reverse()
         
     }
     
@@ -88,6 +116,7 @@ public struct CalendarView: View {
         self.selectableDates.min() ?? self.startDate
     }
     
+
 
     func nextMonth(currentMonth: Date, add: Int) -> Date {
         var components = DateComponents()

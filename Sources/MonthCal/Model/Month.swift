@@ -13,8 +13,13 @@ import SwiftUI
 @available(iOS 13.0, *)
 
 
-struct Month {
-
+struct Month: Equatable {
+    
+    
+    static func == (lhs: Month, rhs: Month) -> Bool {
+        lhs.startDate == rhs.startDate
+    }
+    
     private let calendar = Calendar.current
 
     var startDate: Date
