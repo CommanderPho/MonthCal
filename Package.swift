@@ -1,13 +1,14 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "MonthCal",
-    platforms: [
-        .iOS(SupportedPlatform.IOSVersion.v13), .macOS(SupportedPlatform.MacOSVersion.v10_15)
-    ],
+	platforms: [
+		.macOS(.v11),
+		.iOS(.v14)
+	],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
