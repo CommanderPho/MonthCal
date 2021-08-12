@@ -18,11 +18,15 @@ struct DayCellView: View {
     
     var body: some View {
         Text(day.dayName)
-            .frame(width: 32, height: 32)
+			.aspectRatio(1.0, contentMode: .fit)
+            .frame(width: 64, height: 64)
             .foregroundColor(day.textColor)
-            .background(day.backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+			.background(day.backgroundColor)
+			.border(SeparatorShapeStyle(), width: 3.0)
+			.shadow(radius: 3)
+            .clipShape(RoundedRectangle(cornerRadius: 2))
             .clipped()
+
             .onTapGesture {
                 if self.day.selectable {
                     self.selectionCompletion?(self.day)
@@ -32,10 +36,12 @@ struct DayCellView: View {
     }
 }
 
-//@available(OSX 10.15, *)
-//@available(iOS 13.0, *)
-//struct CellView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DayCellView(day: Day(date: Date()))
-//    }
-//}
+@available(OSX 10.15, *)
+@available(iOS 13.0, *)
+struct CellView_Previews: PreviewProvider {
+    static var previews: some View {
+		let defaultColors = Colors()
+		let testDay = Day(date: Date(), selectable: true, colors: defaultColors)
+        DayCellView(day: testDay)
+    }
+}

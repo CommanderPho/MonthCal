@@ -14,7 +14,9 @@ final class MonthCalTests: XCTestCase {
         let firstDate =  today.add(units: -1, component: Calendar.Component.month)
         let secondDate = today.add(units: 1, component: Calendar.Component.month)
  
-        XCTAssertEqual(Date.monthsBetweenTwoDates(firstDate: firstDate, secondDate: secondDate), 2)
+//        XCTAssertEqual(Date.monthsBetweenTwoDates(firstDate: firstDate, secondDate: secondDate), 2)
+		XCTAssertEqual(Date.monthsToCover(firstDate: firstDate, secondDate: secondDate), 2)
+
     }
 
     static var allTests = [
