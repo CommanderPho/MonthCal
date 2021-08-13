@@ -15,7 +15,7 @@ struct DayCellView: View {
 
     var day: Day
     var selectionCompletion: ((Day)->Void)?
-	var propertyIndicators: [DayPropertyIndicatorViewModel] = []
+	var propertyIndicators: [DayPropertyIndicatorViewModel] { return day.propertyIndicators; }
 
     var body: some View {
 		ZStack {
@@ -37,16 +37,12 @@ struct DayCellView: View {
 						}
 				}
 			}
-//			.overlay(alignment: Alignment.topTrailing) {
-				Group {
-					ForEach(propertyIndicators) { anIndicator in
-						DayPropertyIndicatorView(modelView: anIndicator)
-					}// end ForEach
-				} // end group
-				.offset(x: 20, y: 20) // bottomRight corner
-//			}
-
-
+			Group {
+				ForEach(propertyIndicators) { anIndicator in
+					DayPropertyIndicatorView(modelView: anIndicator)
+				}// end ForEach
+			} // end group
+			.offset(x: 20, y: 20) // bottomRight corner
 
 		} // end ZStack
     }
@@ -60,6 +56,8 @@ struct CellView_Previews: PreviewProvider {
 		let testDay = Day(date: Date(), selectable: true, colors: defaultColors)
         DayCellView(day: testDay)
 
-		DayCellView(day: testDay, propertyIndicators: [DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "pin") ])
+
+		let testDayProperties = Day(date: Date(), selectable: true, propertyIndicators: [DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "pin") ], colors: defaultColors)
+		DayCellView(day: testDayProperties)
     }
 }

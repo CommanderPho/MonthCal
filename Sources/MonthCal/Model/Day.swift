@@ -15,6 +15,8 @@ public struct Day: Identifiable {
 
 //    @Published var isSelected = false
     public var id = UUID()
+
+	var propertyIndicators: [DayPropertyIndicatorViewModel]
     var selectable: Bool
     public var dayDate: Date
     var placeholder: Bool
@@ -44,12 +46,13 @@ public struct Day: Identifiable {
         }
     }
 
-    public init(date: Date, today: Bool = false, selectable: Bool, placeholder: Bool = false, colors: Colors) {
+	public init(date: Date, today: Bool = false, selectable: Bool, placeholder: Bool = false, propertyIndicators: [DayPropertyIndicatorViewModel] = [], colors: Colors) {
         dayDate = date
         isToday = today
         self.selectable = selectable
         self.placeholder = placeholder
         self.colors = colors
+		self.propertyIndicators = propertyIndicators
     }
 
 }

@@ -9,15 +9,14 @@ import SwiftUI
 
 
 
-struct DayPropertyIndicatorViewModel: Identifiable {
-	var id: UUID = UUID()
+public struct DayPropertyIndicatorViewModel: Identifiable {
+	public var id: UUID = UUID()
 
-
-	var fillColor: Color
-	var systemBaseImageName: String
+	public var fillColor: Color
+	public var systemBaseImageName: String
 	// Alignment
 
-	internal init(fillColor: Color, systemBaseImageName: String) {
+	public init(fillColor: Color, systemBaseImageName: String) {
 		self.fillColor = fillColor
 		self.systemBaseImageName = systemBaseImageName
 	}
