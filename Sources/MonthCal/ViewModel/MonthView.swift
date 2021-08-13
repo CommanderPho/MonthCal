@@ -19,7 +19,9 @@ struct MonthView: View {
     var body: some View {
       
         VStack(alignment: .center) {
-            Text("\(month.monthNameYear)")
+			Text("\(month.monthNameYear)")
+				.font(.headline)
+				.padding()
       
             LazyVGrid(columns: columns) {
                 ForEach(self.month.monthDays, id:\.id) {day in
@@ -34,10 +36,14 @@ struct MonthView: View {
 
     }
 }
-//@available(OSX 10.15, *)
-//@available(iOS 13.0, *)
-//struct MonthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MonthView(month: Month(startDate: Date(), selectableDays: true))
-//    }
-//}
+
+
+@available(OSX 10.15, *)
+@available(iOS 13.0, *)
+struct MonthView_Previews: PreviewProvider {
+    static var previews: some View {
+		let defaultColors = Colors()
+		let aMonth = Month(startDate: Date(), colors: defaultColors)
+        MonthView(month: aMonth)
+    }
+}
