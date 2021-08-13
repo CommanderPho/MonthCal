@@ -15,14 +15,26 @@ public struct CalendarView: View {
 
     let startDate: Date
     let monthsToDisplay: Int
-    var selectableDates:[Date] =  []
+
+
+    var selectableDates:[Date] =  [] //Ignored if self.dateRenderingDelegate is not nil!
+	weak var dateRenderingDelegate: MonthCalDelegate? = nil
+
     var didSelectDayCompletion: ((Day)->Void)?
     
     var months: [Month] = []
     var colors: Colors
     @StateObject var page: Page = .first()
    // @//State var currentMonth: Month?
-    
+
+
+	// Delegate vesion
+	public init(start: Date, monthsToShow: Int, dateRenderingDelegate: MonthCalDelegate? = nil, daySelectedCompletion: ((Day)->Void)?, colors: Colors = Colors()) {
+		self.init(start: start, monthsToShow: monthsToShow, selectableDates: [], daySelectedCompletion: daySelectedCompletion, colors: colors)
+		self.dateRenderingDelegate = dateRenderingDelegate
+	}
+
+
     public init(start: Date, monthsToShow: Int, selectableDates: [Date] = [], daySelectedCompletion: ((Day)->Void)?, colors: Colors = Colors()) {
         self.startDate = start
         self.monthsToDisplay = monthsToShow
@@ -77,13 +89,13 @@ public struct CalendarView: View {
     }
     
     mutating func generateMonths() {
-        let firstMonth = Month(startDate: self.earliestDate, selectableDates: selectableDates, colors: self.colors)
+		let firstMonth = Month(startDate: self.earliestDate, delegate: self.dateRenderingDelegate, selectableDates: selectableDates, colors: self.colors)
         self.months.append(firstMonth)
         
         if monthsCount > 1 {
             for  i in 1..<self.monthsCount {
              // print("generating months...")
-                let month =  Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: i), selectableDates: selectableDates, colors: self.colors)
+                let month =  Month(startDate: self.nextMonth(currentMonth: self.earliestDate, add: i), delegate: self.dateRenderingDelegate, selectableDates: selectableDates, colors: self.colors)
                 self.months.append(month)
             }
 

@@ -15,7 +15,6 @@ import SwiftUI
 
 struct Month: Equatable {
     
-    
     static func == (lhs: Month, rhs: Month) -> Bool {
         lhs.startDate == rhs.startDate
     }
@@ -23,7 +22,14 @@ struct Month: Equatable {
     private let calendar = Calendar.current
 
     var startDate: Date
+
+	weak var delegate: MonthCalDelegate? // Alternative to hardcoded selectableDates and propertyIndicatorsMapping
+
+	// Note: These variables are ignored if self.delegate is true!
     var selectableDates: [Date] = []
+	var propertyIndicatorsMapping: [Date:[DayPropertyIndicatorViewModel]] = [:] //TODO: make a datasource-like property that returns the appropriate indicators given the date
+
+
     var colors: Colors
     var today = Date()
     var monthNameYear: String {
@@ -94,9 +100,24 @@ struct Month: Equatable {
             let currentDateInt = Int(currentDate.dateToString(format: "MMdyy"))!
             let todayDateInt = Int(today.dateToString(format: "MMdyy"))!
             let isToday = currentDateInt == todayDateInt ? true : false
-            let selectable = currentDate.hasMatchingDayIn(dates: self.selectableDates)
-            let currentDay = Day(date: currentDate, today: isToday, selectable: selectable, colors: self.colors)
-            arrayOfDays.append(currentDay  )
+
+			let selectable: Bool!
+			let propertyIndicators: [DayPropertyIndicatorViewModel]!
+
+			if let validDelegate = self.delegate {
+				// Set the day's properties from the delegate
+				selectable = validDelegate.monthCal(isSelectableForDate: currentDate)
+				propertyIndicators = validDelegate.monthCal(propertyIndicatorsForDate: currentDate)
+			}
+			else {
+				// Otherwise set them from the hard-coded variables
+				selectable = currentDate.hasMatchingDayIn(dates: self.selectableDates)
+				propertyIndicators = propertyIndicatorsMapping[currentDate] ?? []
+			}
+
+
+            let currentDay = Day(date: currentDate, today: isToday, selectable: selectable, propertyIndicators: propertyIndicators, colors: self.colors)
+            arrayOfDays.append(currentDay)
 
 
             //Increment date
