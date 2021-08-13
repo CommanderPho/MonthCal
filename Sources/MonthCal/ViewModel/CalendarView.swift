@@ -142,12 +142,12 @@ public struct CalendarView: View {
 @available(iOS 13.0, *)
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-		let testDelegate = MonthCalTestDelegate(approxNumberOfRandomDates: 40, maxNumDaysBack: 60, fromStartDate: Date().startOfDay())
+		let testDelegate = MonthCalTestDelegate(approxNumberOfRandomDates: 120, maxNumDaysBack: 60, fromStartDate: Date().startOfDay())
 
 		CalendarView(start: Date(), monthsToShow: 2, dateRenderingDelegate: testDelegate, daySelectedCompletion: { aDay in
 			print("day \(aDay.dayDate) selected!")
 		}, colors: Colors())
-			
+
 
 
 

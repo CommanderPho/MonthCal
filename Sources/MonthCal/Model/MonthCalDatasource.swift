@@ -12,7 +12,7 @@ import Foundation
 //MARK: -
 //MARK: - TODO: Note this is note very SwiftUI at all
 
-public protocol MonthCalDelegate: AnyObject {
+public protocol MonthCalDelegate {
 
 //	func monthCal(calendarView: CalendarView, isSelectableForDate: Date) -> Bool // returns true if the date can be selected, otherwise returns false
 //	func monthCal(calendarView: CalendarView, propertyIndicatorsForDate: Date) -> [DayPropertyIndicatorViewModel] // returns an array of the property indicators to display on a given day cell
@@ -29,7 +29,7 @@ public protocol MonthCalDelegate: AnyObject {
 
 
 
-public class MonthCalTestDelegate: MonthCalDelegate {
+public struct MonthCalTestDelegate: MonthCalDelegate {
 
 	var numberOfRandomDates: Int = 15
 
