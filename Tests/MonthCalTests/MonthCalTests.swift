@@ -19,6 +19,13 @@ final class MonthCalTests: XCTestCase {
 
     }
 
+
+	func testDelegate() {
+		let testDelegate = MonthCalTestDelegate()
+		print(testDelegate.testDates)
+		
+	}
+
     static var allTests = [
         ("testExample", testExample),
     ]

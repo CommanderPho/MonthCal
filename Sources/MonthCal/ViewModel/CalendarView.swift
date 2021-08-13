@@ -16,9 +16,8 @@ public struct CalendarView: View {
     let startDate: Date
     let monthsToDisplay: Int
 
-
     var selectableDates:[Date] =  [] //Ignored if self.dateRenderingDelegate is not nil!
-	weak var dateRenderingDelegate: MonthCalDelegate? = nil
+	var dateRenderingDelegate: MonthCalDelegate? = nil
 
     var didSelectDayCompletion: ((Day)->Void)?
     
@@ -47,19 +46,18 @@ public struct CalendarView: View {
 
     public var body: some View {
         ZStack(alignment: .topTrailing) {
-        VStack {
+			VStack {
             
-            WeekdaysView(colors: self.colors)
-            Divider()
-     
-            Pager(page: page, data: self.months, id: \.startDate) { month in
-                MonthView(month: month, didSelectDayCompletion: self.didSelectDayCompletion)
-            }
-            .vertical().sensitivity(.high)
+				WeekdaysView(colors: self.colors)
+				Divider()
 
-            .bounces(true)
-     
-            Spacer()
+				Pager(page: page, data: self.months, id: \.startDate) { month in
+					MonthView(month: month, didSelectDayCompletion: self.didSelectDayCompletion)
+				}
+				.vertical().sensitivity(.high)
+				.bounces(true)
+
+				Spacer()
             }
             
             VStack(spacing: 15) {
@@ -84,7 +82,7 @@ public struct CalendarView: View {
             }.font(.system(size: 25)).padding(.top, 50).padding(.horizontal, 10)
 
            
-        }.frame(maxHeight: 450)
+		}.frame(minWidth: 420, idealWidth: 500, minHeight: 540, idealHeight: 550, maxHeight: 550)
 
     }
     
@@ -140,10 +138,18 @@ public struct CalendarView: View {
 
 }
 
-//@available(OSX 10.15, *)
-//@available(iOS 13.0, *)
-//struct CalendarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CalendarView(start: Date(), monthsToShow: 2)
-//    }
-//}
+@available(OSX 10.15, *)
+@available(iOS 13.0, *)
+struct CalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+		let testDelegate = MonthCalTestDelegate(approxNumberOfRandomDates: 40, maxNumDaysBack: 60, fromStartDate: Date().startOfDay())
+
+		CalendarView(start: Date(), monthsToShow: 2, dateRenderingDelegate: testDelegate, daySelectedCompletion: { aDay in
+			print("day \(aDay.dayDate) selected!")
+		}, colors: Colors())
+			
+
+
+
+    }
+}

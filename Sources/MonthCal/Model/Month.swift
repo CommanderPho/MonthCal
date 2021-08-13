@@ -23,7 +23,7 @@ struct Month: Equatable {
 
     var startDate: Date
 
-	weak var delegate: MonthCalDelegate? // Alternative to hardcoded selectableDates and propertyIndicatorsMapping
+	var delegate: MonthCalDelegate? = nil // Alternative to hardcoded selectableDates and propertyIndicatorsMapping
 
 	// Note: These variables are ignored if self.delegate is true!
     var selectableDates: [Date] = []

@@ -43,7 +43,14 @@ struct MonthView: View {
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
 		let defaultColors = Colors()
-		let aMonth = Month(startDate: Date(), colors: defaultColors)
-        MonthView(month: aMonth)
+//		let aMonth = Month(startDate: Date(), colors: defaultColors)
+//        MonthView(month: aMonth)
+
+		let startDate = Date().startOfDay()
+		let testDelegate = MonthCalTestDelegate()
+//		print("testDelegateDates: \(testDelegate.testDates)")
+		let aMonthWithDelegate = Month(startDate: startDate, delegate: testDelegate, colors: defaultColors)
+		MonthView(month: aMonthWithDelegate)
+
     }
 }
