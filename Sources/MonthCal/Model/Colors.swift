@@ -11,26 +11,25 @@ import SwiftUI
 
 
 public struct Colors {
-    
-    public init(textColor: Color = .primary, todayTextColor: Color = .blue, disabledTextColor: Color = Color.gray, selectedTextColor:Color = Color.primary, backgroundColor:Color =  Color.clear, weekdayBackgroundColor: Color =  Color.clear, selectedBackgroundColor: Color = .orange) {
-        
-        self.textColor = textColor
-        self.todayTextColor = todayTextColor
-        self.disabledTextColor = disabledTextColor
-        self.selectedTextColor = selectedTextColor
-        self.backgroundColor = backgroundColor
-        self.weekdayBackgroundColor = weekdayBackgroundColor
-        self.selectedBackgroundColor = selectedBackgroundColor
-    }
-    var textColor: Color
-    var todayTextColor: Color
-    var disabledTextColor: Color
-    var selectedTextColor: Color
-    
+
+    public var textColor: Color
+    public var todayTextColor: Color
+    public var disabledTextColor: Color
+    public var selectedTextColor: Color
+
     //Background
-    var backgroundColor: Color
-    var weekdayBackgroundColor: Color
-    var selectedBackgroundColor: Color
-    
-    
+    public var backgroundColor: Color
+    public var weekdayBackgroundColor: Color
+    public var selectedBackgroundColor: Color
+
+
+	public init(textColor: Color = .primary, todayTextColor: Color = .blue, disabledTextColor: Color = Color.gray, selectedTextColor:Color = Color.primary, backgroundColor:Color =  Color.clear, weekdayBackgroundColor: Color =  Color.clear, selectedBackgroundColor: Color = .orange) {
+		self.textColor = textColor
+		self.todayTextColor = todayTextColor
+		self.disabledTextColor = disabledTextColor
+		self.selectedTextColor = selectedTextColor
+		self.backgroundColor = backgroundColor
+		self.weekdayBackgroundColor = weekdayBackgroundColor
+		self.selectedBackgroundColor = selectedBackgroundColor
+	}
 }

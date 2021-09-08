@@ -82,7 +82,7 @@ public struct CalendarView: View {
             }.font(.system(size: 25)).padding(.top, 50).padding(.horizontal, 10)
 
            
-		}.frame(minWidth: 420, idealWidth: 500, minHeight: 540, idealHeight: 550, maxHeight: 550)
+		}.frame(minWidth: 420, idealWidth: 500, minHeight: 580, idealHeight: 580, maxHeight: 600)
 
     }
     

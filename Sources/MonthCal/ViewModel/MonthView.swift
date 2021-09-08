@@ -14,7 +14,7 @@ struct MonthView: View {
 
     var month: Month
     var didSelectDayCompletion: ((Day)->Void)?
-    let  columns = Array.init(repeating: GridItem(.flexible()), count: Calendar.current.weekdaySymbols.count)
+    let columns = Array.init(repeating: GridItem(.flexible()), count: Calendar.current.weekdaySymbols.count)
     
     var body: some View {
       
@@ -24,7 +24,7 @@ struct MonthView: View {
 				.padding()
       
             LazyVGrid(columns: columns) {
-                ForEach(self.month.monthDays, id:\.id) {day in
+                ForEach(self.month.monthDays, id:\.id) { day in
                     DayCellView(day: day, selectionCompletion: self.didSelectDayCompletion)
                         .padding(.top, 5).padding(.bottom, 5)
                 }

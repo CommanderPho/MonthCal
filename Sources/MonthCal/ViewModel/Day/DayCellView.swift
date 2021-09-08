@@ -38,11 +38,14 @@ struct DayCellView: View {
 				}
 			}
 			Group {
-				ForEach(propertyIndicators) { anIndicator in
-					DayPropertyIndicatorView(modelView: anIndicator)
-				}// end ForEach
+				HStack(alignment: .center, spacing: 0) {
+					ForEach(propertyIndicators) { anIndicator in
+						DayPropertyIndicatorView(modelView: anIndicator)
+					}// end ForEach
+				}
+				.padding(.top, (32.0+8.0))
 			} // end group
-			.offset(x: 20, y: 20) // bottomRight corner
+//			.offset(x: 20, y: 20) // bottomRight corner
 
 		} // end ZStack
     }
@@ -57,7 +60,8 @@ struct CellView_Previews: PreviewProvider {
         DayCellView(day: testDay)
 
 
-		let testDayProperties = Day(date: Date(), selectable: true, propertyIndicators: [DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "pin") ], colors: defaultColors)
+		let manyPropertyIndicators = [DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "note"), DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "pin"), DayPropertyIndicatorViewModel(fillColor: .gray, systemBaseImageName: "pin")]
+		let testDayProperties = Day(date: Date(), selectable: true, propertyIndicators: manyPropertyIndicators, colors: defaultColors)
 		DayCellView(day: testDayProperties)
     }
 }
